@@ -811,4 +811,505 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ---
 
+# Flutter Node Store
+
+แอปพลิเคชัน E-Commerce ที่พัฒนาด้วย Flutter สำหรับ Frontend และ Node.js สำหรับ Backend API รองรับการใช้งานบน iOS, Android และ Web
+
+## 📋 สารบัญ
+- [คุณสมบัติ](#-คุณสมบัติ)
+- [โครงสร้างโปรเจค](#-โครงสร้างโปรเจค)
+- [เทคโนโลยีที่ใช้](#-เทคโนโลยีที่ใช้)
+- [การติดตั้ง](#-การติดตั้ง)
+- [การตั้งค่า](#-การตั้งค่า)
+- [การพัฒนาแอป - ขั้นตอนทีละขั้น](#-การพัฒนาแอป---ขั้นตอนทีละขั้น)
+- [โครงสร้างไฟล์และหน้าที่](#-โครงสร้างไฟล์และหน้าที่)
+
+## ✨ คุณสมบัติ
+
+- 🔐 ระบบ Authentication (Login, Register, Forgot Password)
+- 📱 Responsive Design (Mobile & Web Layout)
+- 🎯 Introduction Screen สำหรับผู้ใช้ใหม่
+- 🛍️ ระบบจัดการสินค้า (CRUD Operations)
+  - เพิ่มสินค้า
+  - แสดงรายการสินค้า
+  - แก้ไขสินค้า
+  - ลบสินค้า
+- 🖼️ Upload รูปภาพสินค้า (Image Picker & Cropper)
+- 🌐 เชื่อมต่อ REST API ด้วย Dio
+- 💾 บันทึกสถานะด้วย SharedPreferences
+- 🎨 Custom Theme และ Styles
+- 📊 Dashboard พร้อม Bottom Navigation
+- 🔔 ตรวจสอบสถานะ Network Connectivity
+
+## 🗂️ โครงสร้างโปรเจค
+
+```
+lib/
+├── main.dart                    # Entry point ของแอป
+├── app_router.dart             # กำหนด Routes ทั้งหมด
+├── components/                 # UI Components ที่ใช้ซ้ำ
+│   ├── custom_textfield.dart
+│   ├── rounded_button.dart
+│   ├── responsive_layout.dart
+│   ├── mobile_layout.dart
+│   ├── web_layout.dart
+│   ├── image_not_found.dart
+│   └── social_media_options.dart
+├── models/                     # Data Models
+│   └── product_model.dart
+├── screens/                    # หน้าจอต่างๆ
+│   ├── welcome/               # Introduction Screen
+│   ├── login/                 # หน้า Login
+│   ├── register/              # หน้าสมัครสมาชิก
+│   ├── forgotpassword/        # หน้า Reset Password
+│   ├── dashboard/             # หน้าหลัก
+│   ├── products/              # จัดการสินค้า
+│   │   ├── product_add.dart   # เพิ่มสินค้า
+│   │   ├── product_detail.dart # รายละเอียดสินค้า
+│   │   └── product_update.dart # แก้ไขสินค้า
+│   ├── bottomnavpage/         # Bottom Navigation Pages
+│   └── drawerpage/            # Drawer Menu Pages
+│       ├── info_screen.dart
+│       ├── about_screen.dart
+│       └── contact_screen.dart
+├── services/                   # API Services
+│   ├── dio_config.dart        # Dio Configuration
+│   └── rest_api.dart          # REST API Calls
+├── themes/                     # App Themes
+│   ├── colors.dart
+│   └── styles.dart
+└── utils/                      # Utilities
+    ├── constants.dart         # ค่าคงที่ (API URLs)
+    └── utility.dart           # Helper Functions
+
+assets/
+├── images/                     # รูปภาพต่างๆ
+└── fonts/                      # Custom Fonts (NotoSansThai)
+```
+
+## 🛠️ เทคโนโลยีที่ใช้
+
+### Dependencies หลัก
+- **introduction_screen** (^3.1.11) - หน้าจอแนะนำแอป
+- **shared_preferences** (^2.2.0) - บันทึกข้อมูลในเครื่อง
+- **logger** (^2.0.2+1) - Debugging
+- **connectivity_plus** (^4.0.1) - ตรวจสอบ Network
+- **dio** (^5.3.0) - HTTP Client สำหรับเรียก API
+- **http_parser** (^4.0.2) - Parse HTTP Response
+- **image_picker** (^1.0.1) - เลือกรูปภาพ
+- **image_cropper** (^5.0.0) - Crop รูปภาพ
+
+## 📦 การติดตั้ง
+
+### ความต้องการเบื้องต้น
+- Flutter SDK (>=3.2.0 <4.0.0)
+- Dart SDK
+- Android Studio / Xcode (สำหรับ iOS)
+- Node.js Backend API (ต้องรันก่อน)
+
+### ขั้นตอนการติดตั้ง
+
+1. **Clone โปรเจค**
+```bash
+cd /path/to/your/projects
+git clone <your-repository-url>
+cd flutter_node_store
+```
+
+2. **ติดตั้ง Dependencies**
+```bash
+flutter pub get
+```
+
+3. **ตรวจสอบ Devices ที่พร้อมใช้งาน**
+```bash
+flutter devices
+```
+
+4. **รันแอป**
+```bash
+# รันบน Device ที่เชื่อมต่ออยู่
+flutter run
+
+# หรือระบุ Device
+flutter run -d chrome          # Web
+flutter run -d <device-id>     # iOS/Android
+```
+
+## ⚙️ การตั้งค่า
+
+### 1. ตั้งค่า Backend API URL
+
+แก้ไขไฟล์ `lib/utils/constants.dart`:
+
+```dart
+// Local Development
+const baseURLAPI = 'http://YOUR_IP:3000/api/';
+const baseURLImage = 'http://YOUR_IP:3000/uploads/images/';
+
+// Production (ไม่ใช้ localhost เพราะจะรันบนมือถือไม่ได้)
+// const baseURLAPI = 'https://your-server.com/api/';
+// const baseURLImage = 'https://your-server.com/uploads/images/';
+```
+
+> **⚠️ สำคัญ:** ถ้าจะรันบนมือถือจริง ต้องใช้ IP Address ของเครื่อง ห้ามใช้ `localhost` หรือ `127.0.0.1`
+
+### 2. เพิ่มรูปภาพใน Assets
+
+วางไฟล์รูปภาพไว้ในโฟลเดอร์ `assets/images/`
+
+### 3. ตั้งค่า Android Permissions (ถ้าใช้ Image Picker)
+
+แก้ไขไฟล์ `android/app/src/main/AndroidManifest.xml`:
+```xml
+<uses-permission android:name="android.permission.CAMERA"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+```
+
+## 🚀 การพัฒนาแอป - ขั้นตอนทีละขั้น
+
+### Phase 1: Setup พื้นฐาน
+
+#### ✅ 1.1 สร้างโครงสร้างโฟลเดอร์
+ไฟล์และโฟลเดอร์ทั้งหมดถูกสร้างไว้แล้ว ตรวจสอบว่ามีครบหรือไม่
+
+#### ✅ 1.2 ตั้งค่า Theme และ Styles
+- สร้างไฟล์ `lib/themes/colors.dart` - กำหนดสีที่ใช้ในแอป
+- สร้างไฟล์ `lib/themes/styles.dart` - กำหนด Theme หลัก
+
+#### ✅ 1.3 สร้าง Utility Functions
+- สร้างไฟล์ `lib/utils/utility.dart` - Functions ช่วยเหลือต่างๆ
+  - `checkNetwork()` - ตรวจสอบ Network
+  - `initSharedPrefs()` - เริ่มต้น SharedPreferences
+  - `logger` - สำหรับ Debug
+- สร้างไฟล์ `lib/utils/constants.dart` - กำหนด API URLs
+
+### Phase 2: ตั้งค่า API Service
+
+#### 📡 2.1 สร้าง Dio Configuration
+สร้างไฟล์ `lib/services/dio_config.dart`:
+```dart
+import 'package:dio/dio.dart';
+import 'package:flutter_node_store/utils/constants.dart';
+
+class DioConfig {
+  // Dio instance ธรรมดา
+  static Dio get dio {
+    return Dio(BaseOptions(
+      baseUrl: baseURLAPI,
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 5),
+    ));
+  }
+  
+  // Dio instance ที่มี Authentication Token
+  static Dio get dioWithAuth {
+    return Dio(BaseOptions(
+      baseUrl: baseURLAPI,
+      headers: {
+        'Authorization': 'Bearer YOUR_TOKEN',
+      },
+    ));
+  }
+}
+```
+
+#### 📡 2.2 สร้าง REST API Service
+สร้างไฟล์ `lib/services/rest_api.dart` โดยมี Methods:
+- `registerAPI(data)` - สมัครสมาชิก
+- `loginAPI(data)` - เข้าสู่ระบบ
+- `getProducts()` - ดึงรายการสินค้า
+- `getProductById(id)` - ดึงข้อมูลสินค้าตาม ID
+- `createProduct(data)` - เพิ่มสินค้าใหม่
+- `updateProduct(id, data)` - แก้ไขสินค้า
+- `deleteProduct(id)` - ลบสินค้า
+- `uploadImage(File image)` - Upload รูปภาพ
+
+### Phase 3: สร้าง Models
+
+#### 🗃️ 3.1 Product Model
+สร้างไฟล์ `lib/models/product_model.dart`:
+```dart
+class Product {
+  String? id;
+  String? name;
+  String? price;
+  String? image;
+  String? description;
+  
+  Product({this.id, this.name, this.price, this.image, this.description});
+  
+  // fromJson
+  Product.fromJson(Map<String, dynamic> json) {
+    id = json['_id'];
+    name = json['name'];
+    price = json['price'].toString();
+    image = json['image'];
+    description = json['description'];
+  }
+  
+  // toJson
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'price': price,
+      'image': image,
+      'description': description,
+    };
+  }
+}
+```
+
+### Phase 4: สร้าง Reusable Components
+
+#### 🧩 4.1 Custom TextField
+สร้าง `lib/components/custom_textfield.dart` สำหรับ Input fields
+
+#### 🧩 4.2 Rounded Button
+สร้าง `lib/components/rounded_button.dart` สำหรับ Buttons
+
+#### 🧩 4.3 Responsive Layouts
+สร้าง `lib/components/responsive_layout.dart` สำหรับรองรับหน้าจอหลายขนาด
+
+### Phase 5: สร้าง Screens (ตามลำดับการทำงาน)
+
+#### 🏁 5.1 Welcome Screen (ทำก่อน)
+สร้าง `lib/screens/welcome/welcome_screen.dart`:
+- ใช้ `introduction_screen` package
+- แสดงหน้าแนะนำแอปเมื่อเปิดครั้งแรก
+- เมื่อจบให้บันทึกสถานะใน SharedPreferences
+- Navigate ไปหน้า Login
+
+#### 🔐 5.2 Login Screen
+สร้าง `lib/screens/login/login_screen.dart`:
+- Form สำหรับกรอก Email/Password
+- ปุ่ม Login เรียก `loginAPI()`
+- เมื่อ Login สำเร็จบันทึก Token และ Navigate ไป Dashboard
+- มีลิงก์ไปหน้า Register และ Forgot Password
+
+#### 📝 5.3 Register Screen
+สร้าง `lib/screens/register/register_screen.dart`:
+- Form สำหรับสมัครสมาชิก
+- เรียก `registerAPI()`
+- Navigate กลับไป Login เมื่อสำเร็จ
+
+#### 🔑 5.4 Forgot Password Screen
+สร้าง `lib/screens/forgotpassword/forgot_password_screen.dart`:
+- Form สำหรับ Reset Password
+
+#### 🏠 5.5 Dashboard Screen
+สร้าง `lib/screens/dashboard/dashboard_screen.dart`:
+- Scaffold พร้อม AppBar, Drawer, BottomNavigationBar
+- แสดงหน้าต่างๆ ตาม Bottom Navigation
+- Drawer Menu สำหรับเข้าถึงหน้าอื่นๆ
+
+#### 🛍️ 5.6 Products Screens (สำคัญ)
+
+**A. Product List (แสดงในหน้า Dashboard)**
+- ดึงข้อมูลจาก `getProducts()`
+- แสดงเป็น Grid หรือ List
+- มีปุ่ม Add, Edit, Delete
+- กดที่สินค้าไปหน้า Product Detail
+
+**B. Product Add**
+สร้าง `lib/screens/products/product_add.dart`:
+- Form กรอกข้อมูลสินค้า (ชื่อ, ราคา, รายละเอียด)
+- เลือกรูปภาพด้วย Image Picker
+- Crop รูปภาพ
+- Upload รูปด้วย `uploadImage()`
+- เรียก `createProduct()` เพื่อบันทึก
+
+**C. Product Detail**
+สร้าง `lib/screens/products/product_detail.dart`:
+- แสดงรายละเอียดสินค้าแบบเต็ม
+- ปุ่ม Edit และ Delete
+
+**D. Product Update**
+สร้าง `lib/screens/products/product_update.dart`:
+- โหลดข้อมูลสินค้าเดิมมาแสดงใน Form
+- แก้ไขได้
+- เรียก `updateProduct()` เพื่ออัปเดต
+
+#### 📄 5.7 Drawer Pages
+สร้างหน้าเพิ่มเติม:
+- `lib/screens/drawerpage/info_screen.dart`
+- `lib/screens/drawerpage/about_screen.dart`
+- `lib/screens/drawerpage/contact_screen.dart`
+
+### Phase 6: Setup Routing
+
+#### 🗺️ 6.1 App Router
+สร้าง `lib/app_router.dart` (สร้างไว้แล้ว):
+- กำหนด Route Names
+- สร้าง Routes Map
+- ใช้กับ MaterialApp
+
+#### 🏁 6.2 Main Entry Point
+แก้ไขไฟล์ `lib/main.dart`:
+- ตรวจสอบสถานะการ Login จาก SharedPreferences
+- กำหนด `initialRoute`:
+  - ถ้ายัง ไม่เคยเปิด → Welcome Screen
+  - ถ้าเคยเปิดแล้ว แต่ยังไม่ Login → Login Screen
+  - ถ้า Login แล้ว → Dashboard Screen
+
+### Phase 7: Testing & Debugging
+
+#### 🧪 7.1 ทดสอบแต่ละหน้า
+- ทดสอบ Navigation ระหว่างหน้า
+- ทดสอบการเรียก API
+- ตรวจสอบ Network Error Handling
+
+#### 🐛 7.2 Debug ด้วย Logger
+ใช้ `Utility().logger.d()` เพื่อ Debug
+
+#### ✅ 7.3 ทดสอบบนอุปกรณ์จริง
+- ทดสอบบน Android
+- ทดสอบบน iOS
+- ทดสอบบน Web
+
+## 📁 โครงสร้างไฟล์และหน้าที่
+
+### 1. Main Files
+| ไฟล์ | หน้าที่ |
+|------|---------|
+| `main.dart` | Entry point, ตรวจสอบสถานะและกำหนด Initial Route |
+| `app_router.dart` | จัดการ Navigation Routes ทั้งหมด |
+
+### 2. Services
+| ไฟล์ | หน้าที่ |
+|------|---------|
+| `dio_config.dart` | ตั้งค่า Dio HTTP Client |
+| `rest_api.dart` | เรียก REST API Methods |
+
+### 3. Models
+| ไฟล์ | หน้าที่ |
+|------|---------|
+| `product_model.dart` | Data Model สำหรับสินค้า |
+
+### 4. Utils
+| ไฟล์ | หน้าที่ |
+|------|---------|
+| `constants.dart` | เก็บ API URLs และค่าคงที่ |
+| `utility.dart` | Helper Functions (Network Check, SharedPrefs, Logger) |
+
+### 5. Themes
+| ไฟล์ | หน้าที่ |
+|------|---------|
+| `colors.dart` | กำหนดสี |
+| `styles.dart` | กำหนด Theme |
+
+### 6. Screens Flow
+```
+Welcome Screen (ครั้งแรก)
+    ↓
+Login Screen
+    ├→ Register Screen
+    ├→ Forgot Password Screen
+    └→ Dashboard Screen (เมื่อ Login สำเร็จ)
+           ├→ Product List (หน้าหลัก)
+           │    ├→ Product Add
+           │    ├→ Product Detail
+           │    │    └→ Product Update
+           │    └→ Delete Product (Dialog)
+           ├→ Bottom Nav Pages
+           └→ Drawer Pages (Info, About, Contact)
+```
+
+## 🎯 การทำงานของแอป
+
+### Flow การใช้งาน
+
+1. **เปิดแอปครั้งแรก** → Welcome Screen (Introduction)
+2. **เคยเปิดแล้ว** → Login Screen
+3. **Login สำเร็จ** → Dashboard (แสดงรายการสินค้า)
+4. **จัดการสินค้า:**
+   - กดปุ่ม Add → เพิ่มสินค้าใหม่
+   - กดที่สินค้า → ดูรายละเอียด
+   - กด Edit → แก้ไขสินค้า
+   - กด Delete → ลบสินค้า
+
+### การทำงานกับ Backend
+
+แอปนี้ต้องการ Backend API (Node.js + Express + MongoDB) ที่มี Endpoints:
+
+#### Authentication
+- `POST /api/auth/register` - สมัครสมาชิก
+- `POST /api/auth/login` - เข้าสู่ระบบ
+
+#### Products CRUD
+- `GET /api/products` - ดึงรายการสินค้าทั้งหมด
+- `GET /api/products/:id` - ดึงสินค้าตาม ID
+- `POST /api/products` - เพิ่มสินค้าใหม่
+- `PUT /api/products/:id` - แก้ไขสินค้า
+- `DELETE /api/products/:id` - ลบสินค้า
+
+#### Image Upload
+- `POST /api/upload` - Upload รูปภาพ
+
+## 🔧 Troubleshooting
+
+### ปัญหาที่พบบ่อย
+
+1. **ไม่สามารถเชื่อมต่อ API**
+   - ตรวจสอบว่า Backend Server รันอยู่หรือไม่
+   - ตรวจสอบ URL ใน `constants.dart`
+   - ใช้ IP Address แทน localhost เมื่อทดสอบบนมือถือ
+
+2. **Image Picker ไม่ทำงาน**
+   - ตรวจสอบ Permissions ใน AndroidManifest.xml
+   - ตรวจสอบ Info.plist บน iOS
+
+3. **Build Error**
+   ```bash
+   flutter clean
+   flutter pub get
+   flutter run
+   ```
+
+## 📚 Resources
+
+- [Flutter Documentation](https://docs.flutter.dev/)
+- [Dio Package](https://pub.dev/packages/dio)
+- [SharedPreferences](https://pub.dev/packages/shared_preferences)
+- [Introduction Screen](https://pub.dev/packages/introduction_screen)
+
+## 👨‍💻 Development
+
+### คำสั่งที่ใช้บ่อย
+
+```bash
+# ติดตั้ง dependencies
+flutter pub get
+
+# รันแอป
+flutter run
+
+# Build สำหรับ Release
+flutter build apk              # Android
+flutter build ios              # iOS
+flutter build web              # Web
+
+# ดู dependencies ที่ล้าสมัย
+flutter pub outdated
+
+# อัปเดต dependencies
+flutter pub upgrade
+
+# ตรวจสอบปัญหา
+flutter doctor
+```
+
+## 📝 License
+
+This project is for educational purposes.
+
+---
+
+**สร้างโดย:** Flutter Full Stack Course
+**Version:** 1.0.0
+
+
 **หมายเหตุ:** โปรเจคนี้สร้างขึ้นเพื่อการศึกษาและฝึกฝนการใช้ Flutter ในการพัฒนา Mobile Application แบบ Full Stack
+
+
