@@ -30,8 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: _toggleView,
-            icon: Icon(_isGridView ? Icons.list_outlined : Icons.grid_view)),
+          onPressed: _toggleView,
+          icon: Icon(_isGridView ? Icons.list_outlined : Icons.grid_view),
+        ),
         title: const Text('สินค้า'),
         actions: [
           IconButton(
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushNamed(context, AppRouter.productAdd);
             },
             icon: const Icon(Icons.add),
-          )
+          ),
         ],
       ),
       body: RefreshIndicator(
@@ -61,9 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return _isGridView ? _gridView(products) : _listView(products);
             } else {
               // กรณีที่กำลังโหลดข้อมูล
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ),
@@ -87,11 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
           product: products[index],
           onTap: () {
             Navigator.pushNamed(
-              context, 
+              context,
               AppRouter.productDetail,
-              arguments: {
-                'products': products[index].toJson()
-              }
+              arguments: {'products': products[index].toJson()},
             );
           },
         );
@@ -111,13 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 350,
             child: ProductItem(
               product: products[index],
-               onTap: () {
+              onTap: () {
                 Navigator.pushNamed(
-                  context, 
+                  context,
                   AppRouter.productDetail,
-                  arguments: {
-                    'products': products[index].toJson()
-                  }
+                  arguments: {'products': products[index].toJson()},
                 );
               },
             ),
@@ -126,5 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
   // ---------------------------------------------------------------------------
 }

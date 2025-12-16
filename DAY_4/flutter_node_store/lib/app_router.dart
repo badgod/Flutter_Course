@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
-// import 'package:flutter_node_store/screens/dashboard/dashboard_screen.dart';
-// import 'package:flutter_node_store/screens/drawerpage/about_screen.dart';
-// import 'package:flutter_node_store/screens/drawerpage/contact_screen.dart';
-// import 'package:flutter_node_store/screens/drawerpage/info_screen.dart';
+import 'package:flutter_node_store/screens/dashboard/dashboard_screen.dart';
+import 'package:flutter_node_store/screens/drawerpage/about_screen.dart';
+import 'package:flutter_node_store/screens/drawerpage/contact_screen.dart';
+import 'package:flutter_node_store/screens/drawerpage/info_screen.dart';
 import 'package:flutter_node_store/screens/forgotpassword/forgot_password_screen.dart';
 import 'package:flutter_node_store/screens/login/login_screen.dart';
-// import 'package:flutter_node_store/screens/products/product_add.dart';
-// import 'package:flutter_node_store/screens/products/product_detail.dart';
-// import 'package:flutter_node_store/screens/products/product_update.dart';
+import 'package:flutter_node_store/screens/products/product_add.dart';
+import 'package:flutter_node_store/screens/products/product_detail.dart';
+import 'package:flutter_node_store/screens/products/product_update.dart';
 import 'package:flutter_node_store/screens/register/register_screen.dart';
 import 'package:flutter_node_store/screens/welcome/welcome_screen.dart';
 
@@ -32,12 +32,12 @@ class AppRouter {
     login: (context) => LoginScreen(),
     register: (context) => RegisterScreen(),
     forgotPassword: (context) => ForgotPasswordScreen(),
-    // dashboard: (context) => DashboardScreen(),
-    // info: (context) => InfoScreen(),
-    // about: (context) => AboutScreen(),
-    // contact: (context) => ContactScreen(),
-    // productAdd: (context) => ProductAdd(),
-    // productDetail: (context) => ProductDetail(),
-    // productUpdate: (context) => ProductUpdate(),
+    dashboard: (context) => DashboardScreen(),
+    info: (context) => InfoScreen(),
+    about: (context) => AboutScreen(),
+    contact: (context) => ContactScreen(),
+    productAdd: (context) => ProductAdd(),
+    productDetail: (context) => ProductDetail(),
+    productUpdate: (context) => ProductUpdate(),
   };
 }

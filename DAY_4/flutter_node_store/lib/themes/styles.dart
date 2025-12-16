@@ -4,15 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_node_store/themes/colors.dart';
 
 class AppTheme {
-
   // Custom text theme
   static final customTextTheme = TextTheme(
-    bodyMedium: TextStyle(
-      fontSize: 16,
-    ),
-    bodyLarge: TextStyle(
-      fontSize: 18,
-    ),
+    bodyMedium: TextStyle(fontSize: 16),
+    bodyLarge: TextStyle(fontSize: 18),
   );
 
   // Light theme
@@ -64,5 +59,4 @@ class AppTheme {
       iconTheme: IconThemeData(color: icons),
     ),
   );
-
 }

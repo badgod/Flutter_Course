@@ -10,7 +10,7 @@ Widget customTextField({
   required bool obscureText,
   TextInputType textInputType = TextInputType.text,
   required String? Function(String?)? validator,
-}){
+}) {
   return TextFormField(
     controller: controller,
     keyboardType: textInputType,

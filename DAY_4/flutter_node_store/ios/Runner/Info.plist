@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>ต้องการใช้กล้องเพื่อถ่ายภาพสินค้า</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>ต้องการเข้าถึงคลังภาพเพื่อเลือกรูปภาพสินค้า</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>ต้องการบันทึกรูปภาพลงในคลังภาพ</string>
 </dict>
 </plist>

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class WebLayout extends StatelessWidget {
-  
   final Image imageWidget;
   final Widget dataWidget;
 
-  const WebLayout(
-      {Key? key, required this.imageWidget, required this.dataWidget})
-      : super(key: key);
+  const WebLayout({
+    Key? key,
+    required this.imageWidget,
+    required this.dataWidget,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +28,9 @@ class WebLayout extends StatelessWidget {
                   children: [imageWidget],
                 ),
               ),
-              SizedBox(
-                width: 400,
-                child: dataWidget,
-              )
+              SizedBox(width: 400, child: dataWidget),
             ],
-          )
+          ),
         ],
       ),
     );
